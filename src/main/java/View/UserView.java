@@ -55,15 +55,47 @@ public class UserView {
         }
     }
 
-    private void deleteUser() {
+/**=====================================================MAIN=============================================================**/
+    public static void main(String[] args) {
+        UserView userView = new UserView();
+        userView.launcher();
+    }
+/**=====================================================MAIN=============================================================**/
+
+
+    private void showAllUser() {
+        List<User> userList = iUserService.getAllUsers();
+        System.out.printf("%10s | %20s | %15s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME",
+                "PASSWORD", "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
+        for (User u : userList){
+            System.out.printf("%10s | %20s | %15s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
+                    u.getAccountName(), u.getPassword(), u.getDob(), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
+        }
+    }
+    private void addUser() {
+        String name = inputName();
+        String accountName = inputAccountName();
+        String password = inputPassword();
+        System.out.print("Enter your date of birth: ");
+        LocalDate dob = DateUtils.parseDate(scanner.nextLine());
+        String email = inputEmail();
+        String address = inputAddress();
+        String phoneNumber = inputPhoneNumber();
+        EGender gender = inputGender();
+        ERole role = inputRole();
+
+        User user = new User(iUserService.nextIdUser(), name, accountName, password, dob, email, address, phoneNumber, gender, role);
+        iUserService.createUser(user);
+        showAllUser();
+    }
+    private void editUser() {
 
     }
-
     private void findUserById() {
 
     }
 
-    private void editUser() {
+    private void deleteUser() {
 
     }
 
@@ -108,7 +140,7 @@ public class UserView {
                 validatePassword = false;
             } else {
                 validatePassword = true;
-                System.out.println("'Password' contains at least one alphabetical character,  one digit, " +
+                System.out.println("'Password' contains at least one alphabetical character, one digit or " +
                         "one special character from '@$!%*?&', included 8-20 characters!");
             }
         } while (validatePassword);
@@ -130,23 +162,37 @@ public class UserView {
         } while (validateEmail);
         return email;
     }
-
-    private void addUser() {
-        String name = inputName();
-        String accountName = inputAccountName();
-        String password = inputPassword();
-        System.out.print("Enter your date of birth: ");
-        LocalDate dob = DateUtils.parseDate(scanner.nextLine());
-        String email = inputEmail();
-
-
-
-
-
-        System.out.print("Enter your address: ");
-        String address = scanner.nextLine();
-        System.out.print("Enter your phone number: ");
-        String phoneNumber = scanner.nextLine();
+    private String inputAddress(){
+        String address;
+        boolean validateAddress = false;
+        do {
+            System.out.print("Enter your address: ");
+            address = scanner.nextLine();
+            if (ValidateUtils.isValidAddress(address)){
+                validateAddress = false;
+            } else {
+                validateAddress = true;
+                System.out.println("'Address' contains at least 2 alphabetical character or digit");
+            }
+        } while (validateAddress);
+        return address;
+    }
+    private String inputPhoneNumber(){
+        String phoneNumber;
+        boolean validatePhoneNumber = false;
+        do {
+            System.out.print("Enter your phone number: ");
+            phoneNumber = scanner.nextLine();
+            if (ValidateUtils.isValidPhoneNumber(phoneNumber)){
+                validatePhoneNumber = false;
+            } else {
+                validatePhoneNumber = true;
+                System.out.println("'Phone number' contains 10 digit and begin with number 0");
+            }
+        } while (validatePhoneNumber);
+        return phoneNumber;
+    }
+    private EGender inputGender(){
         System.out.print("Enter your gender: ");
         for (EGender e : EGender.values()) {
             System.out.print(e.getId() + ". " + e.getName() +"\t");
@@ -156,33 +202,23 @@ public class UserView {
             long idGender = Long.parseLong(scanner.nextLine());
             gender = EGender.findGenderById(idGender);
         }
-        while (gender.equals(null));
-
+        while (gender == null);
+        return gender;
+    }
+    private ERole inputRole(){
         String r;
+        boolean validateRole = false;
         do {
             System.out.print("Enter your role (USER/ADMIN): ");
             r = scanner.nextLine();
+            if (r.equals("USER") || r.equals("ADMIN")){
+                validateRole = false;
+            } else {
+                validateRole = true;
+                System.out.println("Please enter USER OR ADMIN!");
+            }
         }
-        while (!r.equals("USER") && !r.equals("ADMIN"));
-        ERole role = ERole.valueOf(r);
-
-        User user = new User(iUserService.nextIdUser(), name, accountName, password, dob, email, address, phoneNumber, gender, role);
-        iUserService.createUser(user);
-        showAllUser();
-    }
-
-    private void showAllUser() {
-        List<User> userList = iUserService.getAllUsers();
-        System.out.printf("%10s | %20s | %15s | %15s | %15s | %20s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME",
-                                "PASSWORD", "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
-        for (User u : userList){
-            System.out.printf("%10s | %20s | %15s | %15s | %15s | %20s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
-                    u.getAccountName(), u.getPassword(), u.getDob(), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
-        }
-    }
-
-    public static void main(String[] args) {
-        UserView userView = new UserView();
-        userView.launcher();
+        while (validateRole);
+        return ERole.valueOf(r);
     }
 }
