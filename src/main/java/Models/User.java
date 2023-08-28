@@ -1,7 +1,6 @@
 package Models;
 
 import Utils.DateUtils;
-import Utils.IdUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +20,7 @@ public class User {
     private String accountName;
     private String password;
     private LocalDate dob;
+    private String email;
     private String address;
     private String phoneNumber;
     private EGender gender;
@@ -28,13 +28,7 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", id, name, accountName, password, DateUtils.formatDate(dob), address, phoneNumber, gender, role);
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, name, accountName, password, DateUtils.formatDate(dob), email, address, phoneNumber, gender, role);
     }
 
-    public static void main(String[] args) {
-        long c = IdUtils.nextIdUser();
-        System.out.println(c);
-        long d = IdUtils.nextIdUser();
-        System.out.println(d);
-    }
 }

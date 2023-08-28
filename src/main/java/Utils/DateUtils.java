@@ -11,7 +11,7 @@ public class DateUtils {
         try {
             return LocalDate.parse(date, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            System.err.println("Please enter by format 'dd-mm-yyyy'");
+            System.out.println("Please enter by format 'dd-mm-yyyy'");
         }
         return null;
     }

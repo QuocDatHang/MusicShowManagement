@@ -18,7 +18,7 @@ public class FileUtils {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] str = line.split(",");
                 User user = new User(Long.parseLong(str[0]), str[1], str[2], str[3], DateUtils.parseDate(str[4]),
-                        str[5], str[6], EGender.valueOf(str[7]), ERole.valueOf(str[8]));
+                        str[5], str[6], str[7], EGender.valueOf(str[8]), ERole.valueOf(str[9]));
                 userList.add(user);
             }
         } catch (IOException e) {

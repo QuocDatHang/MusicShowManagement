@@ -33,4 +33,15 @@ public class UserService implements IUserService {
     public void deleteUser(long id) {
 
     }
+
+    public long nextIdUser(){
+        long maxIdUser = 10000;
+        List<User> userList = getAllUsers();
+        for (User u : userList){
+            if (u.getId() > maxIdUser){
+                maxIdUser = u.getId();
+            }
+        }
+        return maxIdUser + 1;
+    }
 }

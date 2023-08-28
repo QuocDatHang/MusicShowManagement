@@ -1,6 +1,0 @@
-10000,dat,dathang,1234,22-03-1999,12 le loi,0987654321,Male,ADMIN
-10000,long,longnguyen,1111,22-09-2001,14 le duan,0999888777,Female,USER
-10000,vinh,vinhdoan,2222,22-03-1990,98 nguyen trai,0999000222,Other,USER
-10000,tuong,tuongle,8888888,21-12-2001,88 bach dang,0888333999,Female,USER
-10000,quang,quangdang,44444,22-12-2021,113 mang ca,0978223322,Other,USER
-10000,huy,huyle,2345,18-07-1997,130 thai phien,0900999000,Male,USER
