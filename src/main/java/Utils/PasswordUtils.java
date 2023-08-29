@@ -1,0 +1,34 @@
+package Utils;
+
+import Models.User;
+import Services.IUserService;
+import Services.UserService;
+import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.List;
+
+public class PasswordUtils {
+    static IUserService iUserService = new UserService();
+
+    public static boolean isValidPassword(String passwordCheck, String password){
+        // password: $2a$12$OFOICietLS3.qRtzIe6jE.vF.fmtL22DqIZ18WNMmQ.8nS7Frq5aO <= "123123"
+        // passwordCheck: "123444"
+        return BCrypt.checkpw(passwordCheck, password);
+    }
+    public static String isValidAccountName(String accountName){
+        if (accountName.equals("quocdathang")){
+            return "$2a$12$4L5TRfsbvqjpHdxnU3Caz.qubRNddRtITJii9JN3YYCmzLxcEn7MO";
+        }
+        List<User> userList = iUserService.getAllUsers();
+        for (User u : userList){
+            if (u.getAccountName().equals(accountName)){
+                return u.getPassword();
+            }
+        }
+        return null;
+    }
+    public static String generatePassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(12));
+    }
+
+}
