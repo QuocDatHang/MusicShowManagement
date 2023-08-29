@@ -10,4 +10,5 @@ public interface IUserService {
     abstract void updateUser(User user);
     public void deleteUser(long id);
     public long nextIdUser();
+    public User findUserById(long id);
 }

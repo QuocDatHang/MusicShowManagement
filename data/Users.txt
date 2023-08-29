@@ -1,4 +1,2 @@
 10001,Dat,quocdat123,dat@1234,22-03-1998,quocdat@gmail.com,12 le loi,0987654321,Male,ADMIN
-10002,Vinh,vinhtran,vinh1234,12-12-2012,vinhvuive_123@gmail.com,le huan,0999000222,Female,USER
-10003,Long,longnguyen,longdaika333,18-02-1990,longluonleo@yahoo.com.vn,299 ly thai to,0999888999,Other,USER
-10004,Tuong,tuongle111,tuongkute222,11-11-2011,tuongkute@gmail.com,hue,0999111222,Other,USER
+10002,Vinh,vinhle222,cuocdoithatdep123,11-10-1999,vinhvuiver_123@gmail.com,222 hung vuong,0911111222,Other,USER

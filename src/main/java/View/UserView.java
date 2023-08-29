@@ -8,6 +8,7 @@ import Services.UserService;
 import Utils.DateUtils;
 import Utils.ValidateUtils;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -69,7 +70,7 @@ public class UserView {
                 "PASSWORD", "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
         for (User u : userList){
             System.out.printf("%10s | %20s | %15s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
-                    u.getAccountName(), u.getPassword(), u.getDob(), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
+                    u.getAccountName(), u.getPassword(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
         }
     }
     private void addUser() {
@@ -89,14 +90,40 @@ public class UserView {
         showAllUser();
     }
     private void editUser() {
+        System.out.print("Enter id to find: ");
+        long id = Long.parseLong(scanner.nextLine());
+        User editUser = iUserService.findUserById(id);
+        showUser(editUser);
 
+        editUser.setName(inputName());
+        editUser.setAccountName(inputAccountName());
+        editUser.setPassword(inputPassword());
+        System.out.print("Enter your date of birth: ");
+        editUser.setDob(DateUtils.parseDate(scanner.nextLine()));
+        editUser.setEmail(inputEmail());
+        editUser.setAddress(inputAddress());
+        editUser.setPhoneNumber(inputPhoneNumber());
+        editUser.setGender(inputGender());
+        editUser.setRole(inputRole());
+
+        iUserService.updateUser(editUser);
     }
     private void findUserById() {
-
+        System.out.print("Enter id to find: ");
+        long id = Long.parseLong(scanner.nextLine());
+        showUser(iUserService.findUserById(id));
     }
 
     private void deleteUser() {
-
+        System.out.print("Enter id to delete: ");
+        long id = Long.parseLong(scanner.nextLine());
+        iUserService.deleteUser(id);
+    }
+    private void showUser(User u){
+        System.out.printf("%10s | %20s | %15s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME",
+                "PASSWORD", "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
+        System.out.printf("%10s | %20s | %15s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
+                u.getAccountName(), u.getPassword(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
     }
 
     private String inputName(){
