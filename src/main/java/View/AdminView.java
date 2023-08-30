@@ -8,18 +8,65 @@ import Services.UserService;
 import Utils.DateUtils;
 import Utils.ValidateUtils;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+import static View.MainView.mainMenu;
+
 public class AdminView {
-    private final Scanner scanner = new Scanner(System.in);
-    private IUserService iUserService;
-    AdminView(){
-        iUserService = new UserService();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static IUserService iUserService = new UserService();
+
+    public static void adminMenu(){
+        System.out.println("╔════════════════════════════════════════════╗");
+        System.out.println("║                   ADMIN MENU               ║");
+        System.out.println("║      1. Manage users                       ║");
+        System.out.println("║      2. Manage music show                  ║");
+        System.out.println("║      3. Manage bill                        ║");
+        System.out.println("║      4. View report music show             ║");
+        System.out.println("║      0. Return                             ║");
+        System.out.println("╚════════════════════════════════════════════╝");
+
+        System.out.print("Enter your choice: ");
+        int choice = Integer.parseInt(scanner.nextLine());
+        switch (choice) {
+            case 1: {
+                manageUsersMenu();
+                break;
+            }
+            case 2: {
+                manageMusicShowMenu();
+                break;
+            }
+            case 3: {
+                manageBillMenu();
+                break;
+            }
+            case 4: {
+                viewReportMenu();
+                break;
+            }
+            case 0: {
+                mainMenu();
+                break;
+            }
+        }
     }
-    void launcher() {
+
+    private static void viewReportMenu() {
+
+    }
+
+    private static void manageBillMenu() {
+
+    }
+
+    private static void manageMusicShowMenu() {
+
+    }
+
+    public static void manageUsersMenu() {
         System.out.println("╔════════════════════════════════════════════╗");
         System.out.println("║            USER MANAGEMENT MENU            ║");
         System.out.println("║      1. Show all users                     ║");
@@ -53,27 +100,35 @@ public class AdminView {
                 deleteUser();
                 break;
             }
+            case 0: {
+                adminMenu();
+                break;
+            }
+            default:{
+                System.out.println("Please enter a number between 0-6");
+                manageUsersMenu();
+            }
         }
     }
 
     /**=====================================================MAIN=============================================================**/
     public static void main(String[] args) {
         AdminView adminView = new AdminView();
-        adminView.launcher();
     }
     /**=====================================================MAIN=============================================================**/
 
 
-    private void showAllUser() {
+    private static void showAllUser() {
         List<User> userList = iUserService.getAllUsers();
-        System.out.printf("%10s | %20s | %15s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME",
-                "PASSWORD", "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
+        System.out.printf("%10s | %20s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME"
+                , "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
         for (User u : userList){
-            System.out.printf("%10s | %20s | %15s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
-                    u.getAccountName(), u.getPassword(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
+            System.out.printf("%10s | %20s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
+                    u.getAccountName(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
         }
+        manageUsersMenu();
     }
-    private void addUser() {
+    private static void addUser() {
         String name = inputName();
         String accountName = inputAccountName();
         String password = inputPassword();
@@ -88,8 +143,9 @@ public class AdminView {
         User user = new User(iUserService.nextIdUser(), name, accountName, password, dob, email, address, phoneNumber, gender, role);
         iUserService.createUser(user);
         showAllUser();
+        manageUsersMenu();
     }
-    private void editUser() {
+    private static void editUser() {
         System.out.print("Enter id to find: ");
         long id = Long.parseLong(scanner.nextLine());
         User editUser = iUserService.findUserById(id);
@@ -107,26 +163,29 @@ public class AdminView {
         editUser.setRole(inputRole());
 
         iUserService.updateUser(editUser);
+        manageUsersMenu();
     }
-    private void findUserById() {
+    private static void findUserById() {
         System.out.print("Enter id to find: ");
         long id = Long.parseLong(scanner.nextLine());
         showUser(iUserService.findUserById(id));
+        manageUsersMenu();
     }
 
-    private void deleteUser() {
+    private static void deleteUser() {
         System.out.print("Enter id to delete: ");
         long id = Long.parseLong(scanner.nextLine());
         iUserService.deleteUser(id);
+        manageUsersMenu();
     }
-    private void showUser(User u){
+    private static void showUser(User u){
         System.out.printf("%10s | %20s | %15s | %20s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME",
                 "PASSWORD", "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
         System.out.printf("%10s | %20s | %15s | %20s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
                 u.getAccountName(), u.getPassword(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
     }
 
-    private String inputName(){
+    private static String inputName(){
         boolean validateName = true;
         String name;
         do {
@@ -141,7 +200,7 @@ public class AdminView {
         } while (validateName);
         return name;
     }
-    private String inputAccountName(){
+    private static String inputAccountName(){
         boolean validateAccountName = true;
         String accountName;
         do{
@@ -157,7 +216,7 @@ public class AdminView {
         return accountName;
     }
 
-    private String inputPassword(){
+    private static String inputPassword(){
         String password;
         boolean validatePassword = false;
         do {
@@ -168,12 +227,12 @@ public class AdminView {
             } else {
                 validatePassword = true;
                 System.out.println("'Password' contains at least one alphabetical character, one digit or " +
-                        "one special character from '@$!%*?&', included 8-20 characters!");
+                        "one special character from '@$!%*?&', included 6-20 characters!");
             }
         } while (validatePassword);
         return password;
     }
-    private String inputEmail(){
+    private static String inputEmail(){
         String email;
         boolean validateEmail = false;
         do {
@@ -189,7 +248,7 @@ public class AdminView {
         } while (validateEmail);
         return email;
     }
-    private String inputAddress(){
+    private static String inputAddress(){
         String address;
         boolean validateAddress = false;
         do {
@@ -204,7 +263,7 @@ public class AdminView {
         } while (validateAddress);
         return address;
     }
-    private String inputPhoneNumber(){
+    private static String inputPhoneNumber(){
         String phoneNumber;
         boolean validatePhoneNumber = false;
         do {
@@ -219,7 +278,7 @@ public class AdminView {
         } while (validatePhoneNumber);
         return phoneNumber;
     }
-    private EGender inputGender(){
+    private static EGender inputGender(){
         System.out.print("Enter your gender: ");
         for (EGender e : EGender.values()) {
             System.out.print(e.getId() + ". " + e.getName() +"\t");
@@ -232,7 +291,7 @@ public class AdminView {
         while (gender == null);
         return gender;
     }
-    private ERole inputRole(){
+    private static ERole inputRole(){
         String r;
         boolean validateRole = false;
         do {

@@ -11,8 +11,6 @@ public class PasswordUtils {
     static IUserService iUserService = new UserService();
 
     public static boolean isValidPassword(String passwordCheck, String password){
-        // password: $2a$12$OFOICietLS3.qRtzIe6jE.vF.fmtL22DqIZ18WNMmQ.8nS7Frq5aO <= "123123"
-        // passwordCheck: "123444"
         return BCrypt.checkpw(passwordCheck, password);
     }
     public static String isValidAccountName(String accountName){

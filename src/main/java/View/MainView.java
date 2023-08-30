@@ -10,7 +10,6 @@ import static sun.security.jgss.GSSUtil.login;
 public class MainView {
     private static final Scanner scanner = new Scanner(System.in);
 
-
     public static void mainMenu() {
         System.out.println(" ╔════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(" ║                      WELCOME TO MUSIC SHOW MANAGEMENT SOFTWARE                     ║");
@@ -21,9 +20,6 @@ public class MainView {
         System.out.println(" ║                                      0. Exit                                       ║");
         System.out.println(" ║                                                                                    ║");
         System.out.println(" ╚════════════════════════════════════════════════════════════════════════════════════╝");
-    }
-    public static void main(String[] args) {
-        mainMenu();
         System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice) {
@@ -35,7 +31,19 @@ public class MainView {
                 register();
                 break;
             }
+            case 0: {
+                System.exit(0);
+                break;
+            }
+            default:{
+                System.out.println("Please choose a number form 0-2");
+                mainMenu();
+                break;
+            }
         }
+    }
+    public static void main(String[] args) {
+        mainMenu();
     }
 
     private static void register() {

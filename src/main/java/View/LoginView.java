@@ -4,6 +4,8 @@ import Utils.PasswordUtils;
 
 import java.util.Scanner;
 
+import static View.AdminView.adminMenu;
+
 public class LoginView {
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -17,12 +19,12 @@ public class LoginView {
         }
         while (hashPassword == null);
 
-
         String password;
         do {
             System.out.print("Enter your password: ");
             password = scanner.nextLine();
-        } while (!PasswordUtils.isValidPassword(hashPassword, password));
+        } while (!PasswordUtils.isValidPassword(password, hashPassword));
         System.out.println("Login successful!");
+        adminMenu();
     }
 }
