@@ -3,9 +3,11 @@ package View;
 import Models.EGender;
 import Models.ERole;
 import Models.User;
-import Services.IUserService;
+import Services.AdminService;
+import Services.IAdminService;
 import Services.UserService;
 import Utils.DateUtils;
+import Utils.PasswordUtils;
 import Utils.ValidateUtils;
 
 import java.time.LocalDate;
@@ -16,7 +18,7 @@ import static View.MainView.mainMenu;
 
 public class AdminView {
     private static final Scanner scanner = new Scanner(System.in);
-    private static IUserService iUserService = new UserService();
+    private static final IAdminService iAdminService = new AdminService();
 
     public static void adminMenu(){
         System.out.println("╔════════════════════════════════════════════╗");
@@ -86,6 +88,7 @@ public class AdminView {
             }
             case 2: {
                 addUser();
+                manageUsersMenu();
                 break;
             }
             case 3: {
@@ -111,15 +114,9 @@ public class AdminView {
         }
     }
 
-    /**=====================================================MAIN=============================================================**/
-    public static void main(String[] args) {
-        AdminView adminView = new AdminView();
-    }
-    /**=====================================================MAIN=============================================================**/
-
 
     private static void showAllUser() {
-        List<User> userList = iUserService.getAllUsers();
+        List<User> userList = iAdminService.getAllUsers();
         System.out.printf("%10s | %20s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME"
                 , "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
         for (User u : userList){
@@ -128,7 +125,7 @@ public class AdminView {
         }
         manageUsersMenu();
     }
-    private static void addUser() {
+    public static void addUser() {
         String name = inputName();
         String accountName = inputAccountName();
         String password = inputPassword();
@@ -138,17 +135,15 @@ public class AdminView {
         String address = inputAddress();
         String phoneNumber = inputPhoneNumber();
         EGender gender = inputGender();
-        ERole role = inputRole();
+//        ERole role = inputRole();
 
-        User user = new User(iUserService.nextIdUser(), name, accountName, password, dob, email, address, phoneNumber, gender, role);
-        iUserService.createUser(user);
-        showAllUser();
-        manageUsersMenu();
+        User user = new User(iAdminService.nextIdUser(), name, accountName, PasswordUtils.generatePassword(password), dob, email, address, phoneNumber, gender, ERole.USER);
+        iAdminService.createUser(user);
     }
     private static void editUser() {
         System.out.print("Enter id to find: ");
         long id = Long.parseLong(scanner.nextLine());
-        User editUser = iUserService.findUserById(id);
+        User editUser = iAdminService.findUserById(id);
         showUser(editUser);
 
         editUser.setName(inputName());
@@ -160,22 +155,22 @@ public class AdminView {
         editUser.setAddress(inputAddress());
         editUser.setPhoneNumber(inputPhoneNumber());
         editUser.setGender(inputGender());
-        editUser.setRole(inputRole());
+//        editUser.setRole(inputRole());
 
-        iUserService.updateUser(editUser);
+        iAdminService.updateUser(editUser);
         manageUsersMenu();
     }
     private static void findUserById() {
         System.out.print("Enter id to find: ");
         long id = Long.parseLong(scanner.nextLine());
-        showUser(iUserService.findUserById(id));
+        showUser(iAdminService.findUserById(id));
         manageUsersMenu();
     }
 
     private static void deleteUser() {
         System.out.print("Enter id to delete: ");
         long id = Long.parseLong(scanner.nextLine());
-        iUserService.deleteUser(id);
+        iAdminService.deleteUser(id);
         manageUsersMenu();
     }
     private static void showUser(User u){
@@ -291,6 +286,7 @@ public class AdminView {
         while (gender == null);
         return gender;
     }
+    /**
     private static ERole inputRole(){
         String r;
         boolean validateRole = false;
@@ -307,4 +303,5 @@ public class AdminView {
         while (validateRole);
         return ERole.valueOf(r);
     }
+     **/
 }

@@ -1,25 +1,25 @@
 package View;
 
-import jdk.jfr.internal.tool.Main;
+import Utils.PasswordUtils;
 
 import java.util.Scanner;
 
-import static View.LoginView.login;
-import static sun.security.jgss.GSSUtil.login;
+import static View.AdminView.adminMenu;
+import static View.UserView.userMenu;
 
 public class MainView {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void mainMenu() {
-        System.out.println(" ╔════════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.println(" ║                      WELCOME TO MUSIC SHOW MANAGEMENT SOFTWARE                     ║");
-        System.out.println(" ╠════════════════════════════════════════════════════════════════════════════════════╣");
-        System.out.println(" ║                                                                                    ║");
-        System.out.println(" ║                                      1. Log in                                     ║");
-        System.out.println(" ║                                      2. Register                                   ║");
-        System.out.println(" ║                                      0. Exit                                       ║");
-        System.out.println(" ║                                                                                    ║");
-        System.out.println(" ╚════════════════════════════════════════════════════════════════════════════════════╝");
+        System.out.println("             ╔════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("             ║                      WELCOME TO MUSIC SHOW MANAGEMENT SOFTWARE                     ║");
+        System.out.println("             ╠════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println("             ║                                                                                    ║");
+        System.out.println("             ║                                      1. Log in                                     ║");
+        System.out.println("             ║                                      2. Register                                   ║");
+        System.out.println("             ║                                      0. Exit                                       ║");
+        System.out.println("             ║                                                                                    ║");
+        System.out.println("             ╚════════════════════════════════════════════════════════════════════════════════════╝");
         System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice) {
@@ -46,7 +46,33 @@ public class MainView {
         mainMenu();
     }
 
+    public static void login(){
+        String accountName;
+        String hashPassword;
+        do {
+            System.out.print("Enter your account name: ");
+            accountName = scanner.nextLine();
+            hashPassword = PasswordUtils.isValidAccountName(accountName);
+        }
+        while (hashPassword == null);
+
+        String password;
+        do {
+            System.out.print("Enter your password: ");
+            password = scanner.nextLine();
+        } while (!PasswordUtils.isValidPassword(password, hashPassword));
+        System.out.println("Login successful!");
+        if (accountName.equals("quocdathang")) {
+            adminMenu();
+        }
+        else {
+            userMenu();
+        }
+    }
+
     private static void register() {
+        AdminView.addUser();
+        mainMenu();
     }
 
 }

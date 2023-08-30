@@ -4,7 +4,7 @@ import Models.User;
 
 import java.util.List;
 
-public interface IUserService {
+public interface IAdminService {
     void createUser(User user);
     List<User> getAllUsers();
     abstract void updateUser(User user);
