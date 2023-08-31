@@ -1,15 +1,12 @@
 package View;
 
-import Models.EGender;
-import Models.ERole;
-import Models.User;
-import Services.AdminService;
-import Services.IAdminService;
-import Services.UserService;
+import Models.*;
+import Services.*;
 import Utils.DateUtils;
 import Utils.PasswordUtils;
 import Utils.ValidateUtils;
 
+import javax.xml.bind.Element;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -19,6 +16,7 @@ import static View.MainView.mainMenu;
 public class AdminView {
     private static final Scanner scanner = new Scanner(System.in);
     private static final IAdminService iAdminService = new AdminService();
+    private static final IShowService iShowService = new ShowService();
 
     public static void adminMenu(){
         System.out.println("╔════════════════════════════════════════════╗");
@@ -65,19 +63,136 @@ public class AdminView {
     }
 
     private static void manageMusicShowMenu() {
+        System.out.println("╔════════════════════════════════════════════╗");
+        System.out.println("║         MUSIC SHOW MANAGEMENT MENU         ║");
+        System.out.println("║      1. Show all shows                     ║");
+        System.out.println("║      2. Add new show                       ║");
+        System.out.println("║      3. Edit show                          ║");
+        System.out.println("║      4. Delete show                        ║");
+        System.out.println("║      0. Return                             ║");
+        System.out.println("╚════════════════════════════════════════════╝");
 
+        System.out.print("Enter your choice: ");
+        int choice = Integer.parseInt(scanner.nextLine());
+        switch (choice) {
+            case 1: {
+                showAllShows();
+                break;
+            }
+            case 2: {
+                addShow();
+                manageMusicShowMenu();
+                break;
+            }
+            case 3: {
+
+                break;
+            }
+            case 4: {
+
+                break;
+            }
+            case 5: {
+
+                break;
+            }
+            case 0: {
+                adminMenu();
+                break;
+            }
+            default:{
+                System.out.println("Please enter a number between 0-6");
+                manageMusicShowMenu();
+            }
+        }
+    }
+
+    private static void addShow() {
+        String showName = inputShowName();
+        String singer = inputSinger();
+        System.out.print("Enter time start (dd-MM-yyyy hh:mm): ");
+        LocalDate timeStart = DateUtils.parseDateTime(scanner.nextLine());
+        System.out.print("Enter time end (dd-MM-yyyy hh:mm): ");
+        LocalDate timeEnd = DateUtils.parseDateTime(scanner.nextLine());
+        ELocation location = inputLocation();
+
+        Show show = new Show(iShowService.nextIdShow(), showName, singer, timeStart, timeEnd, location);
+        iShowService.createShow(show);
+        manageMusicShowMenu();
+    }
+
+    private static String inputShowName(){
+        boolean validateName = true;
+        String showName;
+        do {
+            System.out.print("Enter show name: ");
+            showName = scanner.nextLine();
+            if (ValidateUtils.isValidShowName(showName)){
+                validateName = false;
+            } else {
+                System.out.println("'Show Name' must start with an alphabetical character or number," +
+                        " included 2-30 character");
+            }
+        } while (validateName);
+        return showName;
+    }
+    private static String inputSinger(){
+        boolean validateSinger = true;
+        String singer;
+        do {
+            System.out.print("Enter singer: ");
+            singer = scanner.nextLine();
+            if (ValidateUtils.isValidSinger(singer)){
+                validateSinger = false;
+            } else {
+                System.out.println("'Singer' must start with an alphabetical character," +
+                        " included 2-20 character");
+            }
+        } while (validateSinger);
+        return singer;
+    }
+    private static ELocation inputLocation(){
+        System.out.print("Choose location: ");
+        for (ELocation e : ELocation.values()) {
+            System.out.print(e.getId() + ". " + e +"\t");
+        }
+        ELocation location;
+        do {
+            long idLocation = Long.parseLong(scanner.nextLine());
+            location = ELocation.findLocationById(idLocation);
+        }
+        while (location == null);
+        return location;
+    }
+
+    //    private long id;
+    //    private String showName;
+    //    private String singer;
+    //    private LocalDate timeStart;
+    //    private LocalDate timeEnd;
+    //    private String location;
+
+    private static void showAllShows() {
+        List<Show> showList = iShowService.getAllShows();
+        System.out.printf("%10s | %25s | %20s | %30s | %30s | %20s\n", "ID", "SHOW NAME", "SINGER",
+                "TIME START", "TIME END", "LOCATION");
+        for (Show s : showList){
+            System.out.printf("%10s | %25s | %20s | %30s | %30s | %20s\n", s.getId(), s.getShowName(),
+                    s.getSinger(), DateUtils.formatDateTime(s.getTimeStart()), DateUtils.formatDateTime(s.getTimeEnd()), s.getLocation());
+        }
+        manageMusicShowMenu();
     }
 
     public static void manageUsersMenu() {
-        System.out.println("╔════════════════════════════════════════════╗");
-        System.out.println("║            USER MANAGEMENT MENU            ║");
-        System.out.println("║      1. Show all users                     ║");
-        System.out.println("║      2. Add new user                       ║");
-        System.out.println("║      3. Edit user                          ║");
-        System.out.println("║      4. Find user by ID                    ║");
-        System.out.println("║      5. Delete user                        ║");
-        System.out.println("║      0. Return                             ║");
-        System.out.println("╚════════════════════════════════════════════╝");
+        System.out.println("            ╔════════════════════════════════════════════╗");
+        System.out.println("            ║            USER MANAGEMENT MENU            ║");
+        System.out.println("            ║      1. Show all users                     ║");
+        System.out.println("            ║      2. Add new user                       ║");
+        System.out.println("            ║      3. Edit user                          ║");
+        System.out.println("            ║      4. Find user by ID                    ║");
+        System.out.println("            ║      5. Delete user                        ║");
+        System.out.println("            ║      0. Return                             ║");
+        System.out.println("            ╚════════════════════════════════════════════╝");
 
         System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
@@ -174,10 +289,10 @@ public class AdminView {
         manageUsersMenu();
     }
     private static void showUser(User u){
-        System.out.printf("%10s | %20s | %15s | %20s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME",
-                "PASSWORD", "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
-        System.out.printf("%10s | %20s | %15s | %20s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
-                u.getAccountName(), u.getPassword(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
+        System.out.printf("%10s | %20s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID", "NAME", "ACCOUNT NAME",
+                 "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
+        System.out.printf("%10s | %20s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getId(), u.getName(),
+                u.getAccountName(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
     }
 
     private static String inputName(){

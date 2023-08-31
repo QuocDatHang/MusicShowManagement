@@ -9,5 +9,5 @@ public interface IShowService {
     List<Show> getAllShows();
     void updateShow(Show show);
     void deleteShow(long id);
-
+    public long nextIdShow();
 }

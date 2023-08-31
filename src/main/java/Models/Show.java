@@ -1,5 +1,6 @@
 package Models;
 
+import Utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,10 @@ public class Show {
     private String singer;
     private LocalDate timeStart;
     private LocalDate timeEnd;
-    private long seatQuantity;
-    private String location;
+    private ELocation location;
 
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s,%s,%s", id, showName, singer, DateUtils.formatDate(timeStart), DateUtils.formatDate(timeEnd), location);
+    }
 }
