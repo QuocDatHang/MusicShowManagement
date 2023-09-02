@@ -1,5 +1,6 @@
 package View;
 
+import Services.LoginService;
 import Utils.PasswordUtils;
 
 import java.util.Scanner;
@@ -47,27 +48,11 @@ public class MainView {
     }
 
     public static void login(){
-        String accountName;
-        String hashPassword;
-        do {
-            System.out.print("Enter your account name: ");
-            accountName = scanner.nextLine();
-            hashPassword = PasswordUtils.isValidAccountName(accountName);
-        }
-        while (hashPassword == null);
-
-        String password;
-        do {
-            System.out.print("Enter your password: ");
-            password = scanner.nextLine();
-        } while (!PasswordUtils.isValidPassword(password, hashPassword));
-        System.out.println("Login successful!");
-        if (accountName.equals("quocdathang")) {
-            adminMenu();
-        }
-        else {
-            userMenu();
-        }
+        System.out.print("Enter your account name: ");
+        String accountName = scanner.nextLine();
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+        LoginService.checkAccount(accountName, password);
     }
 
     private static void register() {

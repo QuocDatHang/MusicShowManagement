@@ -1,7 +1,8 @@
-package Models;
+package Enum;
 
-import java.nio.file.attribute.UserDefinedFileAttributeView;
+import lombok.Getter;
 
+@Getter
 public enum ELocation {
     HaNoi(1,20),
     Hue(2, 15),
@@ -15,16 +16,8 @@ public enum ELocation {
     private long id;
     private long seatQuantity;
 
-    public long getId() {
-        return id;
-    }
-
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getSeatQuantity() {
-        return seatQuantity;
     }
 
     public void setSeatQuantity(long seatQuantity) {

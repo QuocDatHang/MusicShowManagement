@@ -1,4 +1,4 @@
-package Models;
+package Enum;
 
 public enum ERole {
     USER, ADMIN;

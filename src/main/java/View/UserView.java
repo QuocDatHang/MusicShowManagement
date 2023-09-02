@@ -1,7 +1,6 @@
 package View;
 
-import Services.IAdminService;
-import Services.UserService;
+import Services.IUserService;
 
 import java.util.Scanner;
 
@@ -9,7 +8,7 @@ import static View.MainView.mainMenu;
 
 public class UserView {
     private static final Scanner scanner = new Scanner(System.in);
-    private IAdminService iAdminService;
+    private IUserService iUserService;
     public static void userMenu(){
         System.out.println("                ╔════════════════════════════════════════════╗");
         System.out.println("                ║                   USER MENU                ║");

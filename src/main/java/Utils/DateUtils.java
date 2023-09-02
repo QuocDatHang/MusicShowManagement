@@ -2,12 +2,13 @@ package Utils;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class DateUtils {
     public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     public static LocalDate parseDate(String date){
         try {
@@ -25,16 +26,16 @@ public class DateUtils {
         }
         return null;
     }
-    public static LocalDate parseDateTime(String dateTime) {
+    public static LocalDateTime parseDateTime(String dateTime) {
         try {
-            return LocalDate.parse(dateTime, dateTimeFormatter);
+            return LocalDateTime.parse(dateTime, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Please enter by format 'dd-MM-yyyy hh:mm:ss'");
+            System.out.println("Please enter by format 'dd-mm-yyyy hh:mm'");
         }
         return null;
     }
 
-    public static String formatDateTime(LocalDate localDateTime) {
+    public static String formatDateTime(LocalDateTime localDateTime) {
         try {
             return localDateTime.format(dateTimeFormatter);
         } catch (DateTimeException e) {

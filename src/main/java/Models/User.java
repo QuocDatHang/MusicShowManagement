@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import Enum.EGender;
+import Enum.ERole;
 
 
 @Getter
@@ -14,8 +16,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class User {
-    private long id;
+public class User implements IParseModel {
+    private long idUser;
     private String name;
     private String accountName;
     private String password;
@@ -28,7 +30,14 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, name, accountName, password, DateUtils.formatDate(dob), email, address, phoneNumber, gender, role);
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", idUser, name, accountName, password, DateUtils.formatDate(dob), email, address, phoneNumber, gender, role);
     }
 
+    @Override
+    public User parse(String line) {
+        String[] str = line.split(",");
+        User u = new User(Long.parseLong(str[0]), str[1], str[2], str[3], DateUtils.parseDate(str[4]),
+                str[5], str[6], str[7], EGender.valueOf(str[8]), ERole.valueOf(str[9]));
+        return u;
+    }
 }

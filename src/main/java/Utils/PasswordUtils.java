@@ -1,15 +1,14 @@
 package Utils;
 
 import Models.User;
-import Services.AdminService;
-import Services.IAdminService;
 import Services.UserService;
+import Services.IUserService;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
 public class PasswordUtils {
-    static IAdminService iAdminService = new AdminService();
+    static IUserService iUserService = new UserService();
 
     public static boolean isValidPassword(String passwordCheck, String password){
         return BCrypt.checkpw(passwordCheck, password);
@@ -18,7 +17,7 @@ public class PasswordUtils {
         if (accountName.equals("quocdathang")){
             return "$2a$12$4L5TRfsbvqjpHdxnU3Caz.qubRNddRtITJii9JN3YYCmzLxcEn7MO";
         }
-        List<User> userList = iAdminService.getAllUsers();
+        List<User> userList = iUserService.getAllUsers();
         for (User u : userList){
             if (u.getAccountName().equals(accountName)){
                 return u.getPassword();

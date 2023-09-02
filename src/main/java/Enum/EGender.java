@@ -1,4 +1,4 @@
-package Models;
+package Enum;
 
 public enum EGender {
     Male(1, "MALE"), Female(2, "FEMALE"), Other(3, "OTHER");
@@ -7,8 +7,8 @@ public enum EGender {
         this.id = id;
         this.name = name;
     }
-    private long id;
-    private String name;
+    public long id;
+    public String name;
 
     public long getId() {
         return id;

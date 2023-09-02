@@ -19,7 +19,7 @@ public class ShowService implements IShowService {
 
     @Override
     public List<Show> getAllShows() {
-        return FileUtils.readDataShow(fileShow);
+        return FileUtils.readData(fileShow, Show.class);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ShowService implements IShowService {
     }
 
     @Override
-    public void deleteShow(long id) {
+    public void deleteShow(long idShow) {
 
     }
 
@@ -37,8 +37,8 @@ public class ShowService implements IShowService {
         long maxIdShow = 20000;
         List<Show> showList = getAllShows();
         for (Show s: showList){
-            if (s.getId() > maxIdShow){
-                maxIdShow = s.getId();
+            if (s.getIdShow() > maxIdShow){
+                maxIdShow = s.getIdShow();
             }
         }
         return maxIdShow + 1;
