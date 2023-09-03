@@ -1,3 +1,5 @@
 10001,Hang Quoc Dat,thisisdat,$2a$12$GqYwXcGzGAVCK.oSvXeDe.tzQ3hwa7l6RBXDfG9o75silM9S5klqK,22-03-1997,mrdat123@gmail.com,33 le huan,0988999888,Male,USER
 10002,Tuong Le,tuongle123,$2a$12$ZVrxWOlcpVEjhG2lZhdKbuE8CwY3X7Gz8bI1FYZ19M2ga23MQCmSq,18-02-1990,tuongle123@gmail.com,23 nguyen trai,0999222333,Male,USER
 10003,Long Nguyen,long1234,$2a$12$9D2fd5RpDBsIHLfXNbv4kexcn3jl3h/sqH26iNNVZVpp6VwBv8n3G,19-09-1990,longnguyen@gmail.com,22 nguyen trai,0988777666,Other,USER
+10004,Vinh Le,vinh2222,$2a$12$SU1ARUaEvdA3LRVffEBS9uUrrgUq3nZgDtwJ0o.RPAr5O0tH67uyu,17-08-2002,vinhvuive@gmail.com,445 Nguyen Tat Thanh,0792333111,Other,USER
+10005,Nam,namhoang11,$2a$12$rEQZOhqfvCPhFLgS5xDRXeawCBfnXiIoQ4IojvnuHSnFU6SmBgTti,22-08-1998,namcute@gmail.com,01 To Huu,0999222333,Other,USER

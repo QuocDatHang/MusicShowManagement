@@ -37,7 +37,7 @@ public class ValidateUtils {
     public static boolean isValidSinger(String singer){
         return Pattern.matches(REGEX_SINGER, singer);
     }
-    public final static String REGEX_SHOWPRICE = "^(?!0\\.000vnd)([1-9][0-9]?(?:\\.[0-9]{3})*|0?[1-9][0-9]{0,1}(?:\\.[0-9]{3})*\\.000)$";
+    public final static String REGEX_SHOWPRICE = "^\\d+$";
     public static boolean isValidShowPrice(String showPrice){
         return Pattern.matches(REGEX_SHOWPRICE, showPrice);
     }

@@ -22,26 +22,26 @@ public class MainView {
         System.out.println("             ║                                                                                    ║");
         System.out.println("             ╚════════════════════════════════════════════════════════════════════════════════════╝");
         System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(scanner.nextLine());
-        switch (choice) {
-            case 1: {
-                login();
-                break;
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1: {
+                    login();
+                    break;
+                }
+                case 2: {
+                    register();
+                    break;
+                }
+                case 0: {
+                    System.exit(0);
+                    break;
+                }
+                default:{
+                    System.out.println("Please choose a number form 0-2");
+                    mainMenu();
+                    break;
+                }
             }
-            case 2: {
-                register();
-                break;
-            }
-            case 0: {
-                System.exit(0);
-                break;
-            }
-            default:{
-                System.out.println("Please choose a number form 0-2");
-                mainMenu();
-                break;
-            }
-        }
     }
     public static void main(String[] args) {
         mainMenu();
@@ -56,7 +56,7 @@ public class MainView {
     }
 
     private static void register() {
-        AdminView.addUser();
+        UserView.addUser();
         mainMenu();
     }
 

@@ -1,33 +1,29 @@
 package Services;
 
-import Models.Admin;
 import Models.User;
 import Utils.FileUtils;
-import Utils.PasswordUtils;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
-public class UserService implements IUserService {
+public class UserService implements IModelService<User> {
     String fileUser = "./data/Users.txt";
 
     @Override
-    public void createUser(User user) {
-        List<User> userList = getAllUsers();
+    public void create(User user) {
+        List<User> userList = getAll();
         userList.add(user);
         FileUtils.writeData(fileUser, userList);
         System.out.println("Create user successful!");
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return FileUtils.readData(fileUser, User.class);
     }
 
     @Override
-    public void updateUser(User user) {
-        List<User> userList = getAllUsers();
+    public void update(User user) {
+        List<User> userList = getAll();
         for (User u : userList){
             if (u.getIdUser() == user.getIdUser()){
                 u.setName(user.getName());
@@ -47,23 +43,23 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(long id) {
-        List<User> userList = getAllUsers();
+    public void delete(long id) {
+        List<User> userList = getAll();
         int count = 0;
         for (User u : userList){
             if (u.getIdUser() == id){
                 userList.remove(u);
                 FileUtils.writeData(fileUser, userList);
-                System.out.println("Delete successful!");
+                System.out.println("Delete user successful!");
                 count++;
                 break;
             }
         }
-        if (count == 0) System.out.println("Cannot find id to delete!");
+        if (count == 0) System.out.println("Cannot find id user to delete!");
     }
 
-    public User findUserById(long id){
-        List<User> userList = getAllUsers();
+    public User findById(long id){
+        List<User> userList = getAll();
         for (User u : userList){
             if (u.getIdUser() == id){
                 return u;
@@ -72,9 +68,9 @@ public class UserService implements IUserService {
         return null;
     }
 
-    public long nextIdUser(){
+    public long nextId(){
         long maxIdUser = 10000;
-        List<User> userList = getAllUsers();
+        List<User> userList = getAll();
         for (User u : userList){
             if (u.getIdUser() > maxIdUser){
                 maxIdUser = u.getIdUser();

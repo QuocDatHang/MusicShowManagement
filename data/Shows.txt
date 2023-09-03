@@ -1,5 +1,5 @@
-20001,May lang thang,Thuy Chi,03-09-2023 19:00,03-09-2023 21:00,DaNang,500.000
-20002,Acoustic guitar,Mai Tien Dung,03-09-2023 19:00,03-09-2023 21:00,Hue,400.000
-20003,To The Moon,Trung Quan idol,03-09-2023 19:00,03-09-2023 21:00,SaiGon,700.000
-20004,Soul in the forest,Son Tung Mtp,03-09-2023 19:00,03-09-2023 21:00,HaNoi,800.000
-20005,Lululala,Myra Tran,03-09-2023 19:00,03-09-2023 21:00,DaNang,500.000
+20001,May lang thang,Thuy Chi,03-09-2023 19:00,03-09-2023 21:00,DaNang,500000
+20002,Acoustic guitar,Mai Tien Dung,03-09-2023 19:00,03-09-2023 21:00,Hue,400000
+20003,To The Moon,Trung Quan idol,03-09-2023 19:00,03-09-2023 21:00,SaiGon,700000
+20004,Soul in the forest,Son Tung Mtp,03-09-2023 19:00,03-09-2023 21:00,HaNoi,800000
+20005,Lululala,Myra Tran,03-09-2023 19:00,03-09-2023 21:00,DaNang,500000

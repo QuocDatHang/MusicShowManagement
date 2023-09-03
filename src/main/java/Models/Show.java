@@ -26,7 +26,7 @@ public class Show implements IParseModel {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s,%.3f", idShow, showName, singer, DateUtils.formatDateTime(timeStart), DateUtils.formatDateTime(timeEnd), location, showPrice);
+        return String.format("%s,%s,%s,%s,%s,%s,%.0f", idShow, showName, singer, DateUtils.formatDateTime(timeStart), DateUtils.formatDateTime(timeEnd), location, showPrice);
     }
 
     @Override
