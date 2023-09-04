@@ -33,5 +33,10 @@ public class SeatService {
         }
         FileUtils.writeData(fileSeat, seatList);
     }
-
+    public static void showSeatList(List<Seat> seatList){
+        System.out.printf("%15s | %15s | %20s\n", "ID SEAT", "SEAT POSITION", "STATUS");
+        for (Seat s: seatList){
+            System.out.printf("%15s | %15s | %20s\n", s.getIdSeat(), s.getSeatPosition(), s.getStatus());
+        }
+    }
 }

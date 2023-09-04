@@ -1,20 +1,25 @@
 package Services;
 
 import Models.Order;
-import Models.User;
+import Utils.FileUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderService implements IModelService<Order> {
+    private final String fileOrder = "./data/Orders.txt";
 
     @Override
     public void create(Order order) {
-
+        List<Order> orderList = getAll();
+        orderList.add(order);
+        FileUtils.writeData(fileOrder, orderList);
+        System.out.println("Creat order successful!");
     }
 
     @Override
     public List<Order> getAll() {
-        return null;
+        return FileUtils.readData(fileOrder, Order.class);
     }
 
     @Override
@@ -31,16 +36,28 @@ public class OrderService implements IModelService<Order> {
     public long nextId() {
         long maxIdOrder = 300000;
         List<Order> orderList = getAll();
-        for (Order o : orderList){
-            if (o.getIdUser() > maxIdOrder){
-                maxIdOrder = o.getIdUser();
+        for (Order o : orderList) {
+            if (o.getIdOrder() > maxIdOrder) {
+                maxIdOrder = o.getIdOrder();
             }
         }
         return maxIdOrder + 1;
     }
 
+    public List<Order> findOrderByIdUser(long idUser) {
+        List<Order> orderList = getAll();
+        List<Order> list = orderList.stream().filter(order -> order.getIdUser() == idUser).collect(Collectors.toList());
+        return list;
+    }
+
     @Override
     public Order findById(long id) {
+        List<Order> orderList = getAll();
+        for (Order o : orderList) {
+            if (o.getIdOrder() == id) {
+                return o;
+            }
+        }
         return null;
     }
 }

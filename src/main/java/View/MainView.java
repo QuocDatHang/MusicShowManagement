@@ -1,12 +1,8 @@
 package View;
 
 import Services.LoginService;
-import Utils.PasswordUtils;
 
 import java.util.Scanner;
-
-import static View.AdminView.adminMenu;
-import static View.UserView.userMenu;
 
 public class MainView {
     private static final Scanner scanner = new Scanner(System.in);
@@ -21,33 +17,30 @@ public class MainView {
         System.out.println("             ║                                      0. Exit                                       ║");
         System.out.println("             ║                                                                                    ║");
         System.out.println("             ╚════════════════════════════════════════════════════════════════════════════════════╝");
-        System.out.print("Enter your choice: ");
-            int choice = Integer.parseInt(scanner.nextLine());
-            switch (choice) {
-                case 1: {
-                    login();
-                    break;
-                }
-                case 2: {
-                    register();
-                    break;
-                }
-                case 0: {
-                    System.exit(0);
-                    break;
-                }
-                default:{
-                    System.out.println("Please choose a number form 0-2");
-                    mainMenu();
-                    break;
-                }
+
+        int choice = isValidChoice(0, 2);
+
+        switch (choice) {
+            case 1: {
+                login();
+                break;
             }
+            case 2: {
+                register();
+                break;
+            }
+            case 0: {
+                System.exit(0);
+                break;
+            }
+        }
     }
+
     public static void main(String[] args) {
         mainMenu();
     }
 
-    public static void login(){
+    public static void login() {
         System.out.print("Enter your account name: ");
         String accountName = scanner.nextLine();
         System.out.print("Enter your password: ");
@@ -58,6 +51,29 @@ public class MainView {
     private static void register() {
         UserView.addUser();
         mainMenu();
+    }
+
+    public static int isValidChoice(int min, int max) {
+        int temp = min-1;
+        String input;
+        do {
+            System.out.print("Enter your choice: ");
+            try {
+                input = scanner.nextLine();
+                if (input.isEmpty()) {
+                    temp = min - 1;
+                    System.out.println("Please enter a valid number!");
+                } else {
+                    temp = Integer.parseInt(input);
+                    if (temp < min || temp > max){
+                        System.out.println("Please enter a valid number!");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number!");
+            }
+        } while (temp < min || temp > max);
+        return temp;
     }
 
 }

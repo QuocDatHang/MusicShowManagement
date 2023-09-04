@@ -1,11 +1,15 @@
+import Utils.DateUtils;
+
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Test {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("nhap so tien");
-        int tien = Integer.parseInt(scanner.nextLine());
-        System.out.println(tien);
+
+        String current = DateUtils.formatDateTime(LocalDateTime.now());
+        System.out.println(current);
+
     }
 }

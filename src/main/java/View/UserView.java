@@ -1,57 +1,61 @@
 package View;
 
 import Enum.EGender;
-import Models.Order;
-import Models.User;
-import Services.OrderService;
-import Services.UserService;
+import Enum.ERole;
+import Enum.EStatus;
+import Models.*;
+import Services.*;
 import Utils.DateUtils;
 import Utils.PasswordUtils;
 import Utils.ValidateUtils;
-import Enum.ERole;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static Services.SeatService.showSeatList;
 import static View.AdminView.adminMenu;
 import static View.MainView.mainMenu;
 import static View.ShowView.getAllMusicShows;
 
 public class UserView {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final UserService iUserService = new UserService();
-    private static final OrderService iOrderService = new OrderService();
+    private static final UserService userService = new UserService();
+    private static final OrderService orderService = new OrderService();
+    private static final TicketService ticketService = new TicketService();
+    private static final ShowService showService = new ShowService();
+    private static final SeatService seatService = new SeatService();
 
-    public static void userMenu() {
+    public static void userMenu(long idUser) {
         System.out.println("                ╔════════════════════════════════════════════╗");
         System.out.println("                ║                   USER MENU                ║");
         System.out.println("                ║      1. Get All Music Shows                ║");
         System.out.println("                ║      2. Book Ticket                        ║");
         System.out.println("                ║      3. Your Order                         ║");
-        System.out.println("                ║      4. Edit Order                         ║");
-        System.out.println("                ║      5. Delete Order                       ║");
+        System.out.println("                ║      4. Delete Order                       ║");
         System.out.println("                ║      0. Return Main Menu                   ║");
         System.out.println("                ╚════════════════════════════════════════════╝");
 
-        System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice = MainView.isValidChoice(0, 4);
+
         switch (choice) {
             case 1: {
                 getAllMusicShows();
-                userMenu();
+                userMenu(idUser);
                 break;
             }
             case 2: {
-                bookTicket();
+                bookTicket(idUser);
                 break;
             }
             case 3: {
-
+                yourOrder(idUser);
                 break;
             }
             case 4: {
-
+                mainMenu();
                 break;
             }
             case 0: {
@@ -61,19 +65,103 @@ public class UserView {
         }
     }
 
-    private static void bookTicket() {
-        getAllMusicShows();
-        System.out.print("Enter id music show want to book: ");
-        long idShow = Long.parseLong(scanner.nextLine());
-
-        System.out.println("Enter your email: ");
-        String email = scanner.nextLine();
-        User user = iUserService.findUserByEmail(email);
-        long idUser = user.getIdUser();
-
-        Order order = new Order(iOrderService.nextId(), idUser, LocalDateTime.now(),)
+    private static void yourOrder(long idUser) {
+        System.out.printf("%5s | %15s | %20s | %20s | %30s | %30s | %10s | %15s | %15s\n", "ID ORDER", "USER NAME",
+                "SHOW NAME", "SINGER", "TIME START", "TIME END", "LOCATION", "SEAT POSITION", "TICKET PRICE");
+        List<Order> orderList = orderService.findOrderByIdUser(idUser);
+        User user = userService.findById(idUser);
+        for (Order order : orderList){
+            List<Ticket> ticketList = order.getTicketList();
+            for (Ticket t : ticketList){
+                long idShow = t.getIdShow();
+                Show show = showService.findById(idShow);
+                long idTicket = t.getIdTicket();
+                Ticket ticket = ticketService.findById(idTicket);
+                long idSeat = t.getIdSeat();
+                Seat seat = seatService.findSeatById(idSeat);
+                System.out.printf("%5s | %15s | %20s | %20s | %30s | %30s | %10s | %15s | %15s\n", order.getIdOrder(), user.getName(),
+                        show.getShowName(), show.getSinger(), DateUtils.formatDateTime(show.getTimeStart()),
+                        DateUtils.formatDateTime(show.getTimeEnd()), show.getLocation(), seat.getSeatPosition(), ticket.getTicketPrice());
+            }
+        }
+        userMenu(idUser);
     }
-   // public Order(long idOrder, long idUser, LocalDateTime timeCreate, long totalPrice) {
+
+    private static void bookTicket(long idUser) {
+        Order order = new Order();
+        long idOrder = orderService.nextId();
+        boolean checkContinueBooking = false;
+        List<Ticket> ticketList = new ArrayList<>();
+        do {
+            inputTicket(idOrder, ticketList);
+
+            System.out.println("Do you want to book one more ticket? (Y/N)");
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "Y":
+                case "y": {
+                    checkContinueBooking = true;
+                    break;
+                }
+                case "N":
+                case "n": {
+                    checkContinueBooking = false;
+                    break;
+                }
+                default: {
+                    System.out.println("Please choose Y or N!");
+                    checkContinueBooking = true;
+                    break;
+                }
+            }
+        } while (checkContinueBooking);
+
+
+        long totalPrice = 0;
+        for (Ticket t : ticketList) {
+            totalPrice += t.getTicketPrice();
+        }
+        order.setIdOrder(idOrder);
+        order.setIdUser(idUser);
+        order.setTicketList(ticketList);
+        order.setTimeCreate(LocalDateTime.now());
+        order.setTotalPrice(totalPrice);
+        orderService.create(order);
+        userMenu(idUser);
+    }
+
+    public static void inputTicket(long idOrder, List<Ticket> ticketList) {
+        getAllMusicShows();
+        System.out.print("Enter id show want to book: ");
+        long idShow = Long.parseLong(scanner.nextLine());
+        Show show = showService.findById(idShow);
+        List<Seat> seatList = seatService.showSeatListByLocation(show.getLocation());
+        boolean isValidSeat = true;
+        long idSeat;
+        do {
+            showSeatList(seatList);
+            System.out.println("Choose your seat (id seat): ");
+            idSeat = Long.parseLong(scanner.nextLine());
+            for (Seat s : seatList) {
+                if (s.getIdSeat() == idSeat && s.getStatus().equals(EStatus.AVAILABLE)) {
+                    isValidSeat = false;
+                    seatService.changeSeatStatus(s.getIdSeat());
+                    break;
+                }
+            }
+            if (isValidSeat) {
+                System.out.println("No valid seat, please choose again!");
+            }
+        }
+        while (isValidSeat);
+
+        Ticket ticket = new Ticket(ticketService.nextId(), idOrder, idShow, idSeat, show.getShowPrice());
+        ticketService.create(ticket);
+        ticketList.add(ticket);
+    }
+
+
+    // public Order(long idOrder, long idUser, LocalDateTime timeCreate, long totalPrice) {
 //    private long idTicket;
 //    private long idOrder;
 //    private long idShow;
@@ -91,8 +179,8 @@ public class UserView {
         System.out.println("            ║      0. Return                             ║");
         System.out.println("            ╚════════════════════════════════════════════╝");
 
-        System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice = MainView.isValidChoice(0, 5);
+
         switch (choice) {
             case 1: {
                 showAllUser();
@@ -119,16 +207,12 @@ public class UserView {
                 adminMenu();
                 break;
             }
-            default: {
-                System.out.println("Please enter a number between 0-6");
-                userManagementMenu();
-            }
         }
     }
 
 
     private static void showAllUser() {
-        List<User> userList = iUserService.getAll();
+        List<User> userList = userService.getAll();
         System.out.printf("%10s | %20s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", "ID USER", "NAME", "ACCOUNT NAME"
                 , "DATE OF BIRTH", "EMAIL", "ADDRESS", "PHONE NUMBER", "GENDER", "ROLE");
         for (User u : userList) {
@@ -150,14 +234,14 @@ public class UserView {
         EGender gender = inputGender();
 //        ERole role = inputRole();
 
-        User user = new User(iUserService.nextId(), name, accountName, PasswordUtils.generatePassword(password), dob, email, address, phoneNumber, gender, ERole.USER);
-        iUserService.create(user);
+        User user = new User(userService.nextId(), name, accountName, PasswordUtils.generatePassword(password), dob, email, address, phoneNumber, gender, ERole.USER);
+        userService.create(user);
     }
 
     private static void editUser() {
         System.out.print("Enter id to find: ");
         long idUser = Long.parseLong(scanner.nextLine());
-        User editUser = iUserService.findById(idUser);
+        User editUser = userService.findById(idUser);
         showUser(editUser);
 
         editUser.setName(inputName());
@@ -171,21 +255,21 @@ public class UserView {
         editUser.setGender(inputGender());
 //        editUser.setRole(inputRole());
 
-        iUserService.update(editUser);
+        userService.update(editUser);
         userManagementMenu();
     }
 
     private static void findUserById() {
         System.out.print("Enter id to find: ");
         long idUser = Long.parseLong(scanner.nextLine());
-        showUser(iUserService.findById(idUser));
+        showUser(userService.findById(idUser));
         userManagementMenu();
     }
 
     private static void deleteUser() {
         System.out.print("Enter id to delete: ");
         long idUser = Long.parseLong(scanner.nextLine());
-        iUserService.delete(idUser);
+        userService.delete(idUser);
         userManagementMenu();
     }
 

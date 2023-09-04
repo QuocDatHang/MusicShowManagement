@@ -73,6 +73,10 @@ public class UserService implements IModelService<User> {
         return userList.stream().filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
     }
 
+    public User findUserByAccountName(String accountName){
+        List<User> userList = getAll();
+        return userList.stream().filter(user -> user.getAccountName().equals(accountName)).findFirst().orElse(null);
+    }
     public long nextId(){
         long maxIdUser = 10000;
         List<User> userList = getAll();

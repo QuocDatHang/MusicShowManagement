@@ -57,6 +57,12 @@ public class ShowService implements IModelService<Show> {
 
     @Override
     public Show findById(long id) {
+        List<Show> showList = getAll();
+        for (Show s: showList){
+            if (s.getIdShow() == id){
+                return s;
+            }
+        }
         return null;
     }
 }

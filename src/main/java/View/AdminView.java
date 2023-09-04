@@ -32,8 +32,8 @@ public class AdminView {
         System.out.println("                ║      0. Return                             ║");
         System.out.println("                ╚════════════════════════════════════════════╝");
 
-        System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice = MainView.isValidChoice(0, 4);
+
         switch (choice) {
             case 1: {
                 userManagementMenu();

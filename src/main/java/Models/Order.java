@@ -36,7 +36,7 @@ public class Order implements IParseModel{
     @Override
     public Order parse(String line) {
         String[] str = line.split(",");
-        Order o = new Order(Long.parseLong(str[1]), Long.parseLong(str[2]), DateUtils.parseDateTime(str[3]), Long.parseLong(str[4]));
+        Order o = new Order(Long.parseLong(str[0]), Long.parseLong(str[1]), DateUtils.parseDateTime(str[2]), Long.parseLong(str[3]));
         return o;
     }
 }
