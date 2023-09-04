@@ -16,31 +16,31 @@ import Enum.ELocation;
 
 import static View.MainView.mainMenu;
 import static View.ShowView.*;
-import static View.UserView.manageUsersMenu;
+import static View.UserView.*;
 
 public class AdminView {
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserService iUserService = new UserService();
 
     public static void adminMenu(){
-        System.out.println("╔════════════════════════════════════════════╗");
-        System.out.println("║                   ADMIN MENU               ║");
-        System.out.println("║      1. Manage users                       ║");
-        System.out.println("║      2. Manage music show                  ║");
-        System.out.println("║      3. Manage bill                        ║");
-        System.out.println("║      4. View report music show             ║");
-        System.out.println("║      0. Return                             ║");
-        System.out.println("╚════════════════════════════════════════════╝");
+        System.out.println("                ╔════════════════════════════════════════════╗");
+        System.out.println("                ║                   ADMIN MENU               ║");
+        System.out.println("                ║      1. Manage users                       ║");
+        System.out.println("                ║      2. Manage music show                  ║");
+        System.out.println("                ║      3. Manage bill                        ║");
+        System.out.println("                ║      4. View report music show             ║");
+        System.out.println("                ║      0. Return                             ║");
+        System.out.println("                ╚════════════════════════════════════════════╝");
 
         System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice) {
             case 1: {
-                manageUsersMenu();
+                userManagementMenu();
                 break;
             }
             case 2: {
-                manageMusicShowMenu();
+                showMenu();
                 break;
             }
             case 3: {
@@ -66,46 +66,7 @@ public class AdminView {
 
     }
 
-    static void manageMusicShowMenu() {
-        System.out.println("            ╔════════════════════════════════════════════╗");
-        System.out.println("            ║         MUSIC SHOW MANAGEMENT MENU         ║");
-        System.out.println("            ║      1. Show all shows                     ║");
-        System.out.println("            ║      2. Add new show                       ║");
-        System.out.println("            ║      3. Edit show                          ║");
-        System.out.println("            ║      4. Delete show                        ║");
-        System.out.println("            ║      0. Return                             ║");
-        System.out.println("            ╚════════════════════════════════════════════╝");
 
-        System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(scanner.nextLine());
-        switch (choice) {
-            case 1: {
-                showAllShows();
-                break;
-            }
-            case 2: {
-                addShow();
-                manageMusicShowMenu();
-                break;
-            }
-            case 3: {
-                editShow();
-                break;
-            }
-            case 4: {
-                deleteShow();
-                break;
-            }
-            case 0: {
-                adminMenu();
-                break;
-            }
-            default:{
-                System.out.println("Please enter a number between 0-6");
-                manageMusicShowMenu();
-            }
-        }
-    }
 
 
 }

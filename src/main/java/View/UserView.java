@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import static View.AdminView.adminMenu;
 import static View.MainView.mainMenu;
+import static View.ShowView.getAllMusicShows;
 
 public class UserView {
     private static final Scanner scanner = new Scanner(System.in);
@@ -33,7 +34,8 @@ public class UserView {
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice) {
             case 1: {
-                getAllMusicShow();
+                getAllMusicShows();
+                userMenu();
                 break;
             }
             case 2: {
@@ -55,11 +57,8 @@ public class UserView {
         }
     }
 
-    private static void getAllMusicShow() {
 
-    }
-
-    public static void manageUsersMenu() {
+    public static void userManagementMenu() {
         System.out.println("            ╔════════════════════════════════════════════╗");
         System.out.println("            ║            USER MANAGEMENT MENU            ║");
         System.out.println("            ║      1. Show all users                     ║");
@@ -79,7 +78,7 @@ public class UserView {
             }
             case 2: {
                 addUser();
-                manageUsersMenu();
+                userManagementMenu();
                 break;
             }
             case 3: {
@@ -100,7 +99,7 @@ public class UserView {
             }
             default: {
                 System.out.println("Please enter a number between 0-6");
-                manageUsersMenu();
+                userManagementMenu();
             }
         }
     }
@@ -114,7 +113,7 @@ public class UserView {
             System.out.printf("%10s | %20s | %15s | %15s | %30s | %20s | %15s | %10s | %10s\n", u.getIdUser(), u.getName(),
                     u.getAccountName(), DateUtils.formatDate(u.getDob()), u.getEmail(), u.getAddress(), u.getPhoneNumber(), u.getGender(), u.getRole());
         }
-        manageUsersMenu();
+        userManagementMenu();
     }
 
     public static void addUser() {
@@ -151,21 +150,21 @@ public class UserView {
 //        editUser.setRole(inputRole());
 
         iUserService.update(editUser);
-        manageUsersMenu();
+        userManagementMenu();
     }
 
     private static void findUserById() {
         System.out.print("Enter id to find: ");
         long idUser = Long.parseLong(scanner.nextLine());
         showUser(iUserService.findById(idUser));
-        manageUsersMenu();
+        userManagementMenu();
     }
 
     private static void deleteUser() {
         System.out.print("Enter id to delete: ");
         long idUser = Long.parseLong(scanner.nextLine());
         iUserService.delete(idUser);
-        manageUsersMenu();
+        userManagementMenu();
     }
 
     private static void showUser(User u) {
