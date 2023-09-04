@@ -1,13 +1,16 @@
 package View;
 
 import Enum.EGender;
+import Models.Order;
 import Models.User;
+import Services.OrderService;
 import Services.UserService;
 import Utils.DateUtils;
 import Utils.PasswordUtils;
 import Utils.ValidateUtils;
 import Enum.ERole;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +21,7 @@ import static View.ShowView.getAllMusicShows;
 public class UserView {
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserService iUserService = new UserService();
+    private static final OrderService iOrderService = new OrderService();
 
     public static void userMenu() {
         System.out.println("                ╔════════════════════════════════════════════╗");
@@ -39,7 +43,7 @@ public class UserView {
                 break;
             }
             case 2: {
-
+                bookTicket();
                 break;
             }
             case 3: {
@@ -57,6 +61,24 @@ public class UserView {
         }
     }
 
+    private static void bookTicket() {
+        getAllMusicShows();
+        System.out.print("Enter id music show want to book: ");
+        long idShow = Long.parseLong(scanner.nextLine());
+
+        System.out.println("Enter your email: ");
+        String email = scanner.nextLine();
+        User user = iUserService.findUserByEmail(email);
+        long idUser = user.getIdUser();
+
+        Order order = new Order(iOrderService.nextId(), idUser, LocalDateTime.now(),)
+    }
+   // public Order(long idOrder, long idUser, LocalDateTime timeCreate, long totalPrice) {
+//    private long idTicket;
+//    private long idOrder;
+//    private long idShow;
+//    private long idSeat;
+//    private long ticketPrice;
 
     public static void userManagementMenu() {
         System.out.println("            ╔════════════════════════════════════════════╗");
