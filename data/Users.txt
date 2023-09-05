@@ -4,3 +4,4 @@
 10004,Vinh Le,vinh2222,$2a$12$SU1ARUaEvdA3LRVffEBS9uUrrgUq3nZgDtwJ0o.RPAr5O0tH67uyu,17-08-2002,vinhvuive@gmail.com,445 Nguyen Tat Thanh,0792333111,Other,USER
 10005,Nam,namhoang11,$2a$12$rEQZOhqfvCPhFLgS5xDRXeawCBfnXiIoQ4IojvnuHSnFU6SmBgTti,22-08-1998,namcute@gmail.com,01 To Huu,0999222333,Other,USER
 10006,Khoa Nguyen,khoanguyen,$2a$12$XtKdllWccjRi.rg/406iO.ShX0W.SD4HLEZAy3k.nu/nUeXnDTwyW,24-08-1987,khoanguyen@gmail.com,44 ha noi,0987667889,Male,USER
+10007,Huy Le,huyle444,$2a$12$RpZfDAFQ3SJm0sZId2PBo.2tHyHCJrdoF3XYm9kk4gAFQiW4Va/MG,12-11-1980,huyle4@gmail.com,33 le huan,0988888999,Other,USER

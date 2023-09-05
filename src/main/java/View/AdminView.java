@@ -15,6 +15,7 @@ import Enum.ERole;
 import Enum.ELocation;
 
 import static View.MainView.mainMenu;
+import static View.OrderView.orderMenu;
 import static View.ShowView.*;
 import static View.UserView.*;
 
@@ -27,7 +28,7 @@ public class AdminView {
         System.out.println("                ║                   ADMIN MENU               ║");
         System.out.println("                ║      1. Manage users                       ║");
         System.out.println("                ║      2. Manage music show                  ║");
-        System.out.println("                ║      3. Manage bill                        ║");
+        System.out.println("                ║      3. Manage Orders                      ║");
         System.out.println("                ║      4. View report music show             ║");
         System.out.println("                ║      0. Return                             ║");
         System.out.println("                ╚════════════════════════════════════════════╝");
@@ -44,7 +45,7 @@ public class AdminView {
                 break;
             }
             case 3: {
-                manageBillMenu();
+                orderMenu();
                 break;
             }
             case 4: {
@@ -61,12 +62,6 @@ public class AdminView {
     private static void viewReportMenu() {
 
     }
-
-    private static void manageBillMenu() {
-
-    }
-
-
 
 
 }

@@ -1,6 +1,6 @@
 package View;
 
-import Services.LoginService;
+import Services.*;
 
 import java.util.Scanner;
 

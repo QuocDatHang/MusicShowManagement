@@ -20,13 +20,12 @@ public class ShowView {
         System.out.println("            ║         MUSIC SHOW MANAGEMENT MENU         ║");
         System.out.println("            ║      1. Show all shows                     ║");
         System.out.println("            ║      2. Add new show                       ║");
-        System.out.println("            ║      3. Edit show                          ║");
-        System.out.println("            ║      4. Delete show                        ║");
+        System.out.println("            ║      3. Delete show                        ║");
         System.out.println("            ║      0. Return                             ║");
         System.out.println("            ╚════════════════════════════════════════════╝");
 
-        System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice = MainView.isValidChoice(0, 3);
+
         switch (choice) {
             case 1: {
                 getAllMusicShows();
@@ -39,10 +38,6 @@ public class ShowView {
                 break;
             }
             case 3: {
-                editShow();
-                break;
-            }
-            case 4: {
                 deleteShow();
                 break;
             }
@@ -50,19 +45,15 @@ public class ShowView {
                 adminMenu();
                 break;
             }
-            default:{
-                System.out.println("Please enter a number between 0-6");
-                showMenu();
-            }
         }
     }
 
     public static void getAllMusicShows() {
         List<Show> showList = iShowService.getAll();
-        System.out.printf("%10s | %25s | %20s | %30s | %30s | %20s | %20s\n", "ID SHOW", "SHOW NAME", "SINGER",
+        System.out.printf("%10s | %25s | %20s | %20s | %20s | %20s | %20s\n", "ID SHOW", "SHOW NAME", "SINGER",
                 "TIME START", "TIME END", "LOCATION", "SHOW PRICE(VND)");
         for (Show s : showList){
-            System.out.printf("%10s | %25s | %20s | %30s | %30s | %20s | %20s\n", s.getIdShow(), s.getShowName(),
+            System.out.printf("%10s | %25s | %20s | %20s | %20s | %20s | %20s\n", s.getIdShow(), s.getShowName(),
                     s.getSinger(), DateUtils.formatDateTime(s.getTimeStart()), DateUtils.formatDateTime(s.getTimeEnd()), s.getLocation(), s.getShowPrice());
         }
     }
@@ -70,8 +61,8 @@ public class ShowView {
     public static void addShow() {
         String showName = inputShowName();
         String singer = inputSinger();
-        LocalDateTime timeStart = inputTimeStart();
-        LocalDateTime timeEnd = inputTimeEnd();
+        LocalDateTime timeStart = OrderView.inputDayTime("time start");
+        LocalDateTime timeEnd = OrderView.inputDayTime("time end");
         ELocation location = inputLocation();
         long showPrice = Long.parseLong(inputShowPrice());
 
@@ -79,6 +70,7 @@ public class ShowView {
         iShowService.create(show);
         showMenu();
     }
+
 
     public static void editShow(){
 
@@ -134,24 +126,23 @@ public class ShowView {
         while (location == null);
         return location;
     }
-    private static LocalDateTime inputTimeStart(){
-        LocalDateTime timeStart;
-        do {
-            System.out.print("Enter time start (dd-mm-yyyy hh:mm): ");
-            timeStart = DateUtils.parseDateTime(scanner.nextLine());
-        }
-        while (timeStart == null);
-        return timeStart;
-    }
-    private static LocalDateTime inputTimeEnd(){
-        LocalDateTime timeEnd;
-        do {
-            System.out.print("Enter time end (dd-mm-yyyy hh:mm): ");
-            timeEnd = DateUtils.parseDateTime(scanner.nextLine());
-        }
-        while (timeEnd == null);
-        return timeEnd;
-    }
+//    private static LocalDateTime inputTimeStart(){
+//        LocalDateTime timeStart;
+//        do {
+//            System.out.print("Enter time start (dd-mm-yyyy hh:mm): ");
+//            timeStart = DateUtils.parseDateTime(scanner.nextLine());
+//        } while (timeStart == null);
+//        return timeStart;
+//    }
+//    private static LocalDateTime inputTimeEnd(){
+//        LocalDateTime timeEnd;
+//        do {
+//            System.out.print("Enter time end (dd-mm-yyyy hh:mm): ");
+//            timeEnd = DateUtils.parseDateTime(scanner.nextLine());
+//        }
+//        while (timeEnd == null);
+//        return timeEnd;
+//    }
     private static String inputShowPrice(){
         boolean validateShowPrice = true;
         String showPrice;

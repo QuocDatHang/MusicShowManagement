@@ -18,6 +18,8 @@ import java.util.Scanner;
 import static Services.SeatService.showSeatList;
 import static View.AdminView.adminMenu;
 import static View.MainView.mainMenu;
+import static View.OrderView.bookTicket;
+import static View.OrderView.yourOrder;
 import static View.ShowView.getAllMusicShows;
 
 public class UserView {
@@ -64,109 +66,6 @@ public class UserView {
             }
         }
     }
-
-    private static void yourOrder(long idUser) {
-        System.out.printf("%5s | %15s | %20s | %20s | %30s | %30s | %10s | %15s | %15s\n", "ID ORDER", "USER NAME",
-                "SHOW NAME", "SINGER", "TIME START", "TIME END", "LOCATION", "SEAT POSITION", "TICKET PRICE");
-        List<Order> orderList = orderService.findOrderByIdUser(idUser);
-        User user = userService.findById(idUser);
-        for (Order order : orderList){
-            List<Ticket> ticketList = order.getTicketList();
-            for (Ticket t : ticketList){
-                long idShow = t.getIdShow();
-                Show show = showService.findById(idShow);
-                long idTicket = t.getIdTicket();
-                Ticket ticket = ticketService.findById(idTicket);
-                long idSeat = t.getIdSeat();
-                Seat seat = seatService.findSeatById(idSeat);
-                System.out.printf("%5s | %15s | %20s | %20s | %30s | %30s | %10s | %15s | %15s\n", order.getIdOrder(), user.getName(),
-                        show.getShowName(), show.getSinger(), DateUtils.formatDateTime(show.getTimeStart()),
-                        DateUtils.formatDateTime(show.getTimeEnd()), show.getLocation(), seat.getSeatPosition(), ticket.getTicketPrice());
-            }
-        }
-        userMenu(idUser);
-    }
-
-    private static void bookTicket(long idUser) {
-        Order order = new Order();
-        long idOrder = orderService.nextId();
-        boolean checkContinueBooking = false;
-        List<Ticket> ticketList = new ArrayList<>();
-        do {
-            inputTicket(idOrder, ticketList);
-
-            System.out.println("Do you want to book one more ticket? (Y/N)");
-            String choice = scanner.nextLine();
-            switch (choice) {
-                case "Y":
-                case "y": {
-                    checkContinueBooking = true;
-                    break;
-                }
-                case "N":
-                case "n": {
-                    checkContinueBooking = false;
-                    break;
-                }
-                default: {
-                    System.out.println("Please choose Y or N!");
-                    checkContinueBooking = true;
-                    break;
-                }
-            }
-        } while (checkContinueBooking);
-
-
-        long totalPrice = 0;
-        for (Ticket t : ticketList) {
-            totalPrice += t.getTicketPrice();
-        }
-        order.setIdOrder(idOrder);
-        order.setIdUser(idUser);
-        order.setTicketList(ticketList);
-        order.setTimeCreate(LocalDateTime.now());
-        order.setTotalPrice(totalPrice);
-        orderService.create(order);
-        userMenu(idUser);
-    }
-
-    public static void inputTicket(long idOrder, List<Ticket> ticketList) {
-        getAllMusicShows();
-        System.out.print("Enter id show want to book: ");
-        long idShow = Long.parseLong(scanner.nextLine());
-        Show show = showService.findById(idShow);
-        List<Seat> seatList = seatService.showSeatListByLocation(show.getLocation());
-        boolean isValidSeat = true;
-        long idSeat;
-        do {
-            showSeatList(seatList);
-            System.out.println("Choose your seat (id seat): ");
-            idSeat = Long.parseLong(scanner.nextLine());
-            for (Seat s : seatList) {
-                if (s.getIdSeat() == idSeat && s.getStatus().equals(EStatus.AVAILABLE)) {
-                    isValidSeat = false;
-                    seatService.changeSeatStatus(s.getIdSeat());
-                    break;
-                }
-            }
-            if (isValidSeat) {
-                System.out.println("No valid seat, please choose again!");
-            }
-        }
-        while (isValidSeat);
-
-        Ticket ticket = new Ticket(ticketService.nextId(), idOrder, idShow, idSeat, show.getShowPrice());
-        ticketService.create(ticket);
-        ticketList.add(ticket);
-    }
-
-
-    // public Order(long idOrder, long idUser, LocalDateTime timeCreate, long totalPrice) {
-//    private long idTicket;
-//    private long idOrder;
-//    private long idShow;
-//    private long idSeat;
-//    private long ticketPrice;
 
     public static void userManagementMenu() {
         System.out.println("            ╔════════════════════════════════════════════╗");
@@ -226,13 +125,11 @@ public class UserView {
         String name = inputName();
         String accountName = inputAccountName();
         String password = inputPassword();
-        System.out.print("Enter your date of birth: ");
-        LocalDate dob = DateUtils.parseDate(scanner.nextLine());
+        LocalDate dob = inputDOB();
         String email = inputEmail();
         String address = inputAddress();
         String phoneNumber = inputPhoneNumber();
         EGender gender = inputGender();
-//        ERole role = inputRole();
 
         User user = new User(userService.nextId(), name, accountName, PasswordUtils.generatePassword(password), dob, email, address, phoneNumber, gender, ERole.USER);
         userService.create(user);
@@ -247,13 +144,11 @@ public class UserView {
         editUser.setName(inputName());
         editUser.setAccountName(inputAccountName());
         editUser.setPassword(inputPassword());
-        System.out.print("Enter your date of birth: ");
-        editUser.setDob(DateUtils.parseDate(scanner.nextLine()));
+        editUser.setDob(inputDOB());
         editUser.setEmail(inputEmail());
         editUser.setAddress(inputAddress());
         editUser.setPhoneNumber(inputPhoneNumber());
         editUser.setGender(inputGender());
-//        editUser.setRole(inputRole());
 
         userService.update(editUser);
         userManagementMenu();
@@ -306,7 +201,7 @@ public class UserView {
                 validateAccountName = false;
             } else {
                 System.out.println("'Account Name' must start with an alphabetical character," +
-                        " included 8-20 characters that are either alphabetical, numeric, or underscore!");
+                        " included 6-20 characters that are either alphabetical, numeric, or underscore!");
             }
         } while (validateAccountName);
         return accountName;
@@ -327,6 +222,16 @@ public class UserView {
             }
         } while (validatePassword);
         return password;
+    }
+
+    private static LocalDate inputDOB() {
+        LocalDate dob;
+        do {
+            System.out.print("Enter your date of birth: ");
+            dob = DateUtils.parseDate(scanner.nextLine());
+        }
+        while (dob == null);
+        return dob;
     }
 
     private static String inputEmail() {

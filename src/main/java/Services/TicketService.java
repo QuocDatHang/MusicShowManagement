@@ -5,6 +5,7 @@ import Models.Ticket;
 import Utils.FileUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TicketService implements IModelService<Ticket> {
     private static final String fileTicket = "./data/Tickets.txt";
@@ -53,5 +54,9 @@ public class TicketService implements IModelService<Ticket> {
             }
         }
         return null;
+    }
+    public List<Ticket> findByIdOrder(long idOrder){
+        List<Ticket> ticketList = getAll();
+        return ticketList.stream().filter(ticket -> ticket.getIdOrder() == idOrder).collect(Collectors.toList());
     }
 }

@@ -2,7 +2,9 @@ package Services;
 
 import Models.Order;
 import Utils.FileUtils;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,5 +61,19 @@ public class OrderService implements IModelService<Order> {
             }
         }
         return null;
+    }
+
+    public List<Order> getOrdersByInputTime(LocalDateTime dayStart, LocalDateTime dayEnd){
+        List<Order> orderList = getAll();
+        return orderList.stream().filter(order -> order.getTimeCreate().isAfter(dayStart)
+                && order.getTimeCreate().isBefore(dayEnd)).collect(Collectors.toList());
+    }
+    public long getRevenue(List<Order> orderListByInputTime){
+        long revenue = 0;
+        List<Order> orderList = getAll();
+        for (Order o : orderListByInputTime){
+            revenue += o.getTotalPrice();
+        }
+        return revenue;
     }
 }

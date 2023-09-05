@@ -87,5 +87,4 @@ public class UserService implements IModelService<User> {
         }
         return maxIdUser + 1;
     }
-
 }

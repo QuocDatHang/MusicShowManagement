@@ -17,16 +17,8 @@ import java.util.List;
 public class Order implements IParseModel{
     private long idOrder;
     private long idUser;
-    List<Ticket> ticketList;
     private LocalDateTime timeCreate;
     private long totalPrice;
-
-    public Order(long idOrder, long idUser, LocalDateTime timeCreate, long totalPrice) {
-        this.idOrder = idOrder;
-        this.idUser = idUser;
-        this.timeCreate = timeCreate;
-        this.totalPrice = totalPrice;
-    }
 
     @Override
     public String toString() {
