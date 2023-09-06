@@ -126,23 +126,7 @@ public class ShowView {
         while (location == null);
         return location;
     }
-//    private static LocalDateTime inputTimeStart(){
-//        LocalDateTime timeStart;
-//        do {
-//            System.out.print("Enter time start (dd-mm-yyyy hh:mm): ");
-//            timeStart = DateUtils.parseDateTime(scanner.nextLine());
-//        } while (timeStart == null);
-//        return timeStart;
-//    }
-//    private static LocalDateTime inputTimeEnd(){
-//        LocalDateTime timeEnd;
-//        do {
-//            System.out.print("Enter time end (dd-mm-yyyy hh:mm): ");
-//            timeEnd = DateUtils.parseDateTime(scanner.nextLine());
-//        }
-//        while (timeEnd == null);
-//        return timeEnd;
-//    }
+
     private static String inputShowPrice(){
         boolean validateShowPrice = true;
         String showPrice;

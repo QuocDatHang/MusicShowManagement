@@ -18,8 +18,7 @@ import java.util.Scanner;
 import static Services.SeatService.showSeatList;
 import static View.AdminView.adminMenu;
 import static View.MainView.mainMenu;
-import static View.OrderView.bookTicket;
-import static View.OrderView.yourOrder;
+import static View.OrderView.*;
 import static View.ShowView.getAllMusicShows;
 
 public class UserView {
@@ -35,8 +34,8 @@ public class UserView {
         System.out.println("                ║                   USER MENU                ║");
         System.out.println("                ║      1. Get All Music Shows                ║");
         System.out.println("                ║      2. Book Ticket                        ║");
-        System.out.println("                ║      3. Your Order                         ║");
-        System.out.println("                ║      4. Delete Order                       ║");
+        System.out.println("                ║      3. Your Ticket                        ║");
+        System.out.println("                ║      4. Your Order                         ║");
         System.out.println("                ║      0. Return Main Menu                   ║");
         System.out.println("                ╚════════════════════════════════════════════╝");
 
@@ -53,11 +52,11 @@ public class UserView {
                 break;
             }
             case 3: {
-                yourOrder(idUser);
+                yourTicket(idUser);
                 break;
             }
             case 4: {
-                mainMenu();
+                yourOrder(idUser);
                 break;
             }
             case 0: {
@@ -184,8 +183,7 @@ public class UserView {
             if (ValidateUtils.isValidName(name)) {
                 validateName = false;
             } else {
-                System.out.println("'Name' must start with an alphabetical character," +
-                        " included 2-20 character");
+                System.out.println("'Name' must start with an capital letter, included 2-20 alphabetical character");
             }
         } while (validateName);
         return name;

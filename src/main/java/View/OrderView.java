@@ -76,9 +76,16 @@ public class OrderView {
                     DateUtils.formatDateTime(o.getTimeCreate()), o.getTotalPrice());
         }
     }
+    public static void yourOrder(long idUser){
+        List<Order> orderList = orderService.findOrderByIdUser(idUser);
+        long totalOrder = orderService.getRevenue(orderList);
+        showOrder(orderList);
+        System.out.printf("%46s | %15s\n", "TOTAL ORDER", totalOrder);
+        userMenu(idUser);
+    }
 
-    public static void yourOrder(long idUser) {
-        System.out.printf("%10s | %15s | %20s | %20s | %20s | %20s | %10s | %15s | %15s\n", "ID ORDER", "USER NAME",
+    public static void yourTicket(long idUser) {
+        System.out.printf("%10s | %10s | %16s | %15s | %16s | %16s | %10s | %15s | %15s\n", "ID ORDER", "USER NAME",
                 "SHOW NAME", "SINGER", "TIME START", "TIME END", "LOCATION", "SEAT POSITION", "TICKET PRICE");
         List<Order> orderList = orderService.findOrderByIdUser(idUser);
         User user = userService.findById(idUser);
@@ -91,7 +98,7 @@ public class OrderView {
                 Ticket ticket = ticketService.findById(idTicket);
                 long idSeat = t.getIdSeat();
                 Seat seat = seatService.findSeatById(idSeat);
-                System.out.printf("%10s | %15s | %20s | %20s | %20s | %20s | %10s | %15s | %15s\n", order.getIdOrder(), user.getName(),
+                System.out.printf("%10s | %10s | %16s | %15s | %16s | %16s | %10s | %15s | %15s\n", order.getIdOrder(), user.getName(),
                         show.getShowName(), show.getSinger(), DateUtils.formatDateTime(show.getTimeStart()),
                         DateUtils.formatDateTime(show.getTimeEnd()), show.getLocation(), seat.getSeatPosition(), ticket.getTicketPrice());
             }
