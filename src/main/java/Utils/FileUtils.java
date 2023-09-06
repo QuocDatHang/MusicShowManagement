@@ -22,6 +22,8 @@ public class FileUtils {
                 IParseModel<E> iParseModel = (IParseModel) obj;
                 list.add(iParseModel.parse(line));
             }
+            bufferedReader.close();
+            fileReader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InstantiationException e) {

@@ -29,11 +29,10 @@ public class AdminView {
         System.out.println("                ║      1. Manage users                       ║");
         System.out.println("                ║      2. Manage music show                  ║");
         System.out.println("                ║      3. Manage Orders                      ║");
-        System.out.println("                ║      4. View report music show             ║");
         System.out.println("                ║      0. Return                             ║");
         System.out.println("                ╚════════════════════════════════════════════╝");
 
-        int choice = MainView.isValidChoice(0, 4);
+        int choice = MainView.isValidChoice(0, 3);
 
         switch (choice) {
             case 1: {
@@ -48,20 +47,10 @@ public class AdminView {
                 orderMenu();
                 break;
             }
-            case 4: {
-                viewReportMenu();
-                break;
-            }
             case 0: {
                 mainMenu();
                 break;
             }
         }
     }
-
-    private static void viewReportMenu() {
-
-    }
-
-
 }

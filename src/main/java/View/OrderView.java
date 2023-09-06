@@ -13,6 +13,7 @@ import java.util.Scanner;
 import Enum.EStatus;
 
 import static Services.SeatService.showSeatList;
+import static View.AdminView.adminMenu;
 import static View.MainView.mainMenu;
 import static View.ShowView.getAllMusicShows;
 import static View.UserView.*;
@@ -44,7 +45,7 @@ public class OrderView {
                 break;
             }
             case 0: {
-                mainMenu();
+                adminMenu();
                 break;
             }
         }
