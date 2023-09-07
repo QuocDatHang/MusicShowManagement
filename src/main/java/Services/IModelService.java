@@ -1,8 +1,5 @@
 package Services;
 
-import Models.Show;
-import Models.User;
-
 import java.util.List;
 
 public interface IModelService<T> {

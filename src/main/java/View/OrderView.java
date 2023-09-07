@@ -3,18 +3,13 @@ package View;
 import Models.*;
 import Services.*;
 import Utils.DateUtils;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import Enum.EStatus;
-
 import static Services.SeatService.showSeatList;
 import static View.AdminView.adminMenu;
-import static View.MainView.mainMenu;
 import static View.ShowView.getAllMusicShows;
 import static View.UserView.*;
 
@@ -27,12 +22,12 @@ public class OrderView {
     private static final SeatService seatService = new SeatService();
 
     static void orderMenu() {
-        System.out.println("                ╔════════════════════════════════════════════╗");
-        System.out.println("                ║           ORDER MANAGEMENT MENU            ║");
-        System.out.println("                ║      1. Show All Orders                    ║");
-        System.out.println("                ║      2. Get Revenue                        ║");
-        System.out.println("                ║      0. Return                             ║");
-        System.out.println("                ╚════════════════════════════════════════════╝");
+        System.out.println("            ╔════════════════════════════════════════════╗");
+        System.out.println("            ║           ORDER MANAGEMENT MENU            ║");
+        System.out.println("            ║      1. Show All Orders                    ║");
+        System.out.println("            ║      2. Get Revenue                        ║");
+        System.out.println("            ║      0. Return                             ║");
+        System.out.println("            ╚════════════════════════════════════════════╝");
 
         int choice = MainView.isValidChoice(0, 2);
         switch (choice) {
@@ -86,7 +81,7 @@ public class OrderView {
     }
 
     public static void yourTicket(long idUser) {
-        System.out.printf("%10s | %10s | %16s | %15s | %16s | %16s | %10s | %15s | %15s\n", "ID ORDER", "USER NAME",
+        System.out.printf("%10s | %15s | %16s | %15s | %16s | %16s | %10s | %15s | %15s\n", "ID ORDER", "USER NAME",
                 "SHOW NAME", "SINGER", "TIME START", "TIME END", "LOCATION", "SEAT POSITION", "TICKET PRICE");
         List<Order> orderList = orderService.findOrderByIdUser(idUser);
         User user = userService.findById(idUser);
@@ -99,7 +94,7 @@ public class OrderView {
                 Ticket ticket = ticketService.findById(idTicket);
                 long idSeat = t.getIdSeat();
                 Seat seat = seatService.findSeatById(idSeat);
-                System.out.printf("%10s | %10s | %16s | %15s | %16s | %16s | %10s | %15s | %15s\n", order.getIdOrder(), user.getName(),
+                System.out.printf("%10s | %15s | %16s | %15s | %16s | %16s | %10s | %15s | %15s\n", order.getIdOrder(), user.getName(),
                         show.getShowName(), show.getSinger(), DateUtils.formatDateTime(show.getTimeStart()),
                         DateUtils.formatDateTime(show.getTimeEnd()), show.getLocation(), seat.getSeatPosition(), ticket.getTicketPrice());
             }

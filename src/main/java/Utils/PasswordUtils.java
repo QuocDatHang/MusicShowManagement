@@ -2,7 +2,6 @@ package Utils;
 
 import Models.User;
 import Services.UserService;
-import Services.IModelService;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;

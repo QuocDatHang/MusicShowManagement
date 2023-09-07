@@ -8,7 +8,6 @@ import Enum.ELocation;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
-
 import static View.AdminView.adminMenu;
 
 
@@ -50,10 +49,10 @@ public class ShowView {
 
     public static void getAllMusicShows() {
         List<Show> showList = iShowService.getAll();
-        System.out.printf("%10s | %25s | %20s | %20s | %20s | %20s | %20s\n", "ID SHOW", "SHOW NAME", "SINGER",
+        System.out.printf("%10s | %25s | %20s | %20s | %20s | %12s | %16s\n", "ID SHOW", "SHOW NAME", "SINGER",
                 "TIME START", "TIME END", "LOCATION", "SHOW PRICE(VND)");
         for (Show s : showList){
-            System.out.printf("%10s | %25s | %20s | %20s | %20s | %20s | %20s\n", s.getIdShow(), s.getShowName(),
+            System.out.printf("%10s | %25s | %20s | %20s | %20s | %12s | %16s\n", s.getIdShow(), s.getShowName(),
                     s.getSinger(), DateUtils.formatDateTime(s.getTimeStart()), DateUtils.formatDateTime(s.getTimeEnd()), s.getLocation(), s.getShowPrice());
         }
     }

@@ -5,4 +5,4 @@
 10005,Nam,namhoang11,$2a$12$rEQZOhqfvCPhFLgS5xDRXeawCBfnXiIoQ4IojvnuHSnFU6SmBgTti,22-08-1998,namcute@gmail.com,01 To Huu,0999222333,Other,USER
 10006,Khoa Nguyen,khoanguyen,$2a$12$XtKdllWccjRi.rg/406iO.ShX0W.SD4HLEZAy3k.nu/nUeXnDTwyW,24-08-1987,khoanguyen@gmail.com,44 Ha Noi,0987667889,Male,USER
 10007,Huy Le,huyle444,$2a$12$RpZfDAFQ3SJm0sZId2PBo.2tHyHCJrdoF3XYm9kk4gAFQiW4Va/MG,12-11-1980,huyle4@gmail.com,33 Le Huan,0988888999,Other,USER
-10008,Le Van Huu,levanhuu123,$2a$12$s1ntskD0bH6TOV.9PtadVOax0Qhlh/lVwSBjrPRlXjsCR9TpuwS7y,20-01-1890,levanhuu@gmail.com.vn,44 le van huu,0111111111,Other,USER
+10008,Le Van Tuan,tuanle123,$2a$12$WAB7GdwF1GExITWLh3g4POP.MeYRpwTWphHAnZS302r/q0DgmFWxO,22-09-1999,tuanle@gmail.com,22 Le Loi,0999888777,Male,USER

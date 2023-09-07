@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 public class DateUtils {
     public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -44,8 +43,4 @@ public class DateUtils {
         }
         return null;
     }
-//    public static LocalDateTime currentDateTime(){
-//        LocalDateTime
-//        return .format(new Date());
-//    }
 }

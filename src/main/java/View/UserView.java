@@ -2,20 +2,14 @@ package View;
 
 import Enum.EGender;
 import Enum.ERole;
-import Enum.EStatus;
 import Models.*;
 import Services.*;
 import Utils.DateUtils;
 import Utils.PasswordUtils;
 import Utils.ValidateUtils;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static Services.SeatService.showSeatList;
 import static View.AdminView.adminMenu;
 import static View.MainView.mainMenu;
 import static View.OrderView.*;
@@ -24,10 +18,6 @@ import static View.ShowView.getAllMusicShows;
 public class UserView {
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserService userService = new UserService();
-    private static final OrderService orderService = new OrderService();
-    private static final TicketService ticketService = new TicketService();
-    private static final ShowService showService = new ShowService();
-    private static final SeatService seatService = new SeatService();
 
     public static void userMenu(long idUser) {
         System.out.println("                ╔════════════════════════════════════════════╗");
@@ -142,7 +132,7 @@ public class UserView {
 
         editUser.setName(inputName());
         editUser.setAccountName(inputAccountName());
-        editUser.setPassword(inputPassword());
+        editUser.setPassword(PasswordUtils.generatePassword(inputPassword()));
         editUser.setDob(inputDOB());
         editUser.setEmail(inputEmail());
         editUser.setAddress(inputAddress());

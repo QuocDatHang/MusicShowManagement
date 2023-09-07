@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -31,4 +29,5 @@ public class Order implements IParseModel{
         Order o = new Order(Long.parseLong(str[0]), Long.parseLong(str[1]), DateUtils.parseDateTime(str[2]), Long.parseLong(str[3]));
         return o;
     }
+
 }

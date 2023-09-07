@@ -1,7 +1,6 @@
 package View;
 
 import Services.*;
-
 import java.util.Scanner;
 
 public class MainView {

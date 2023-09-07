@@ -1,7 +1,6 @@
 package Services;
 
 import Models.Show;
-import Models.User;
 import Utils.FileUtils;
 
 import java.util.List;

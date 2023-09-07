@@ -2,7 +2,6 @@ package Services;
 
 import Models.User;
 import Utils.FileUtils;
-
 import java.util.List;
 
 public class UserService implements IModelService<User> {
